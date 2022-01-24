@@ -12,6 +12,7 @@ classdef LPC_Vocoder < matlab.apps.AppBase
         BounLogo_Image         matlab.ui.control.Image
         PlayOrigSound_Button   matlab.ui.control.Button
         PlaySynthSound_Button  matlab.ui.control.Button
+        Save_Button            matlab.ui.control.Button
     end
 
     
@@ -292,6 +293,12 @@ classdef LPC_Vocoder < matlab.apps.AppBase
         function PlaySynthSound_ButtonPushed(app, event)
             soundsc(app.synth_signal, app.fs)
         end
+
+        % Button pushed function: Save_Button
+        function Save_ButtonPushed(app, event)
+           filename = inputdlg({'Enter a filename:'},'Save Synthesized Sound',[1 35],{'test_output_1.wav'});
+           audiowrite(filename{1}, app.synth_signal, app.fs);
+        end
     end
 
     % Component initialization
@@ -313,7 +320,7 @@ classdef LPC_Vocoder < matlab.apps.AppBase
             app.LoadSoundFile_Button.FontSize = 15;
             app.LoadSoundFile_Button.FontWeight = 'bold';
             app.LoadSoundFile_Button.FontColor = [0.149 0.149 0.149];
-            app.LoadSoundFile_Button.Position = [70 299 163 30];
+            app.LoadSoundFile_Button.Position = [33 299 163 30];
             app.LoadSoundFile_Button.Text = 'LOAD SOUND FILE';
 
             % Create OrigSignal_Figure
@@ -322,7 +329,7 @@ classdef LPC_Vocoder < matlab.apps.AppBase
             xlabel(app.OrigSignal_Figure, 'Samples')
             ylabel(app.OrigSignal_Figure, 'Amplitude')
             app.OrigSignal_Figure.FontName = 'Comic Sans MS';
-            app.OrigSignal_Figure.Position = [264 206 300 185];
+            app.OrigSignal_Figure.Position = [222 206 300 185];
 
             % Create Title_Label
             app.Title_Label = uilabel(app.UIFigure);
@@ -341,7 +348,7 @@ classdef LPC_Vocoder < matlab.apps.AppBase
             app.EncodeDecode_Button.FontSize = 15;
             app.EncodeDecode_Button.FontWeight = 'bold';
             app.EncodeDecode_Button.FontColor = [0.149 0.149 0.149];
-            app.EncodeDecode_Button.Position = [70 128 163 30];
+            app.EncodeDecode_Button.Position = [33 128 163 30];
             app.EncodeDecode_Button.Text = 'ENCODE & DECODE';
 
             % Create SynthSignal_Figure
@@ -350,7 +357,7 @@ classdef LPC_Vocoder < matlab.apps.AppBase
             xlabel(app.SynthSignal_Figure, 'Samples')
             ylabel(app.SynthSignal_Figure, 'Amplitude')
             app.SynthSignal_Figure.FontName = 'Comic Sans MS';
-            app.SynthSignal_Figure.Position = [264 13 300 185];
+            app.SynthSignal_Figure.Position = [222 13 300 185];
 
             % Create Author_Label
             app.Author_Label = uilabel(app.UIFigure);
@@ -371,7 +378,7 @@ classdef LPC_Vocoder < matlab.apps.AppBase
             app.PlayOrigSound_Button.FontSize = 15;
             app.PlayOrigSound_Button.FontWeight = 'bold';
             app.PlayOrigSound_Button.FontColor = [0.149 0.149 0.149];
-            app.PlayOrigSound_Button.Position = [102 221 100 71];
+            app.PlayOrigSound_Button.Position = [65 220 100 71];
             app.PlayOrigSound_Button.Text = {'Play'; 'Original'; 'Speech'};
 
             % Create PlaySynthSound_Button
@@ -382,8 +389,19 @@ classdef LPC_Vocoder < matlab.apps.AppBase
             app.PlaySynthSound_Button.FontSize = 15;
             app.PlaySynthSound_Button.FontWeight = 'bold';
             app.PlaySynthSound_Button.FontColor = [0.149 0.149 0.149];
-            app.PlaySynthSound_Button.Position = [100 50 103 71];
+            app.PlaySynthSound_Button.Position = [63 49 103 71];
             app.PlaySynthSound_Button.Text = {'Play'; 'Synthesized'; 'Speech'};
+
+            % Create Save_Button
+            app.Save_Button = uibutton(app.UIFigure, 'push');
+            app.Save_Button.ButtonPushedFcn = createCallbackFcn(app, @Save_ButtonPushed, true);
+            app.Save_Button.BackgroundColor = [0.7176 0.2745 1];
+            app.Save_Button.FontName = 'Comic Sans MS';
+            app.Save_Button.FontSize = 15;
+            app.Save_Button.FontWeight = 'bold';
+            app.Save_Button.FontColor = [0.149 0.149 0.149];
+            app.Save_Button.Position = [529 174 103 71];
+            app.Save_Button.Text = {'Save'; 'Synthesized'; 'Speech'};
 
             % Show the figure after all components are created
             app.UIFigure.Visible = 'on';
